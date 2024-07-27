@@ -1,5 +1,6 @@
 from decimal import Decimal, InvalidOperation
 
+from ..models.transaction_type import TransactionType
 from ..models.bank_account import BankAccount
 
 def check_input(input: str) -> Decimal:
@@ -59,7 +60,7 @@ def bank_app(account: BankAccount) -> None:
                         break
                     amount = check_input(deposit_input)
                     if amount != None:
-                        log_success = account.log_transaction(amount, 'credit')
+                        log_success = account.log_transaction(amount, TransactionType.CREDIT)
                         if log_success: break
                         else: continue
 
@@ -72,7 +73,7 @@ def bank_app(account: BankAccount) -> None:
                         break
                     amount = check_input(withdrawal_input)
                     if amount != None:
-                        log_success = account.log_transaction(amount, 'debit')
+                        log_success = account.log_transaction(amount, TransactionType.DEBIT)
                         if log_success: break
                         else: continue
 

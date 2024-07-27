@@ -1,6 +1,7 @@
 from datetime import datetime
 from decimal import Decimal
 
+from .transaction_type import TransactionType
 from .transaction import Transaction
 
 class BankAccount:
@@ -15,7 +16,7 @@ class BankAccount:
         self.__balance: Decimal = Decimal('0.0')
         self.__transactions = []
     
-    def __log_transaction(self, amount: Decimal, transaction_type: str) -> bool:
+    def __log_transaction(self, amount: Decimal, transaction_type: TransactionType) -> bool:
         """
         Private method to log the transaction and update the balance.
 
@@ -26,14 +27,14 @@ class BankAccount:
         """
         match transaction_type:
             # Deposit
-            case 'credit':
+            case TransactionType.CREDIT:
                 self.__balance += amount
                 self.__transactions.append(Transaction(datetime.now(), amount, self.__balance))
                 print(f"Thank you. ${amount:.2f} has been deposited to your account.")
                 return True
 
             # Withdrawal
-            case 'debit':
+            case TransactionType.DEBIT:
                 if amount <= self.__balance:
                     self.__balance -= amount
                     self.__transactions.append(Transaction(datetime.now(), -amount, self.__balance))
@@ -43,6 +44,10 @@ class BankAccount:
                 elif amount > self.__balance:
                     print("Your bank account has insufficient funds. Please try again.\nEnter [q] to return to main page.")
                     return False
+            
+            case _:
+                print("Invalid transaction type detected.")
+                return False
     
     def log_transaction(self, amount: Decimal, transaction_type: str) -> bool:
         """
