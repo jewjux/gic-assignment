@@ -4,7 +4,7 @@ from datetime import datetime
 
 from src.models.bank_account import BankAccount
 from src.models.transaction import Transaction
-from src.utils.bank_app import check_input
+from src.service.bank_service import check_input
 
 @pytest.fixture
 def account() -> BankAccount:

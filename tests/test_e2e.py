@@ -2,7 +2,7 @@ import pytest
 from decimal import Decimal
 
 from src.models.bank_account import BankAccount
-from src.utils.bank_app import bank_app
+from src.service.bank_service import bank_app
 
 @pytest.fixture
 def account():
