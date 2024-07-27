@@ -10,17 +10,25 @@ A simple banking system application written in Python. This application allows u
 - **Quit**: Exit the application.
 
 ## Installation
-Building the Docker image (using Linux Ubuntu distribution) and running a container using the new image
+Building the Docker image (using Linux Ubuntu distribution):
     ```sh
         docker build -t my-linux-env .
+        ```
+
+Running a container using the Docker image:
+    ```sh
         docker run -it my-linux-env /bin/bash
         ```
 
-Create and activate a virtual environment:
+Create a virtual environment:
     ```sh
     python -m venv venv
-    source venv/bin/activate
     ```
+
+Activate the virtual environment:
+    ```sh
+        source venv/bin/activate
+        ```
 
 Install the required packages:
     ```sh
