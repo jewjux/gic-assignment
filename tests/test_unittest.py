@@ -5,7 +5,8 @@ from datetime import datetime
 from src.models.transaction_type import TransactionType
 from src.models.bank_account import BankAccount
 from src.models.transaction import Transaction
-from src.service.bank_service import check_input
+from src.service.view import BankView
+from src.service.controller import BankApp
 
 @pytest.fixture
 def account() -> BankAccount:
@@ -72,17 +73,21 @@ def test_check_input_valid():
     """
     Test valid inputs for amount.
     """
-    assert check_input('500') == Decimal('500.0')
-    assert check_input('500.50') == Decimal('500.50')
+    view = BankView()
+    app = BankApp(account, view)
+    assert app.check_input('500') == Decimal('500.0')
+    assert app.check_input('500.50') == Decimal('500.50')
 
 def test_check_input_invalid():
     """
     Test invalid inputs for amount.
     """
-    assert check_input('abc') is None
-    assert check_input('%$!') is None
-    assert check_input('500,50') is None
-    assert check_input('-500') is None
+    view = BankView()
+    app = BankApp(account, view)
+    assert app.check_input('abc') is None
+    assert app.check_input('%$!') is None
+    assert app.check_input('500,50') is None
+    assert app.check_input('-500') is None
 
 def test_private_balance_encapsulation(account):
     with pytest.raises(AttributeError):
@@ -94,4 +99,16 @@ def test_private_transactions_encapsulation(account):
 
 def test_private_methods_encapsulation(account):
     with pytest.raises(AttributeError):
-        account.__log_transaction(500, 'credit')
+        account.__log_transaction(Decimal('500.0'), TransactionType.CREDIT)
+
+def test_multiple_transactions(account):
+    """
+    Test multiple deposit and withdrawal.
+
+    :param account: The BankAccount instance to the test.
+    """
+    account.log_transaction(Decimal('500.0'), TransactionType.CREDIT)
+    account.log_transaction(Decimal('200.0'), TransactionType.DEBIT)
+    account.log_transaction(Decimal('300.0'), TransactionType.CREDIT)
+    assert account.balance == Decimal('600.0')
+    assert len(account.transactions) == 3

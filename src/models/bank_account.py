@@ -14,7 +14,7 @@ class BankAccount:
         """
         # Private attributes only modifiable within the class
         self.__balance: Decimal = Decimal('0.0')
-        self.__transactions = []
+        self.__transactions: list = []
     
     def __log_transaction(self, amount: Decimal, transaction_type: TransactionType) -> bool:
         """
@@ -30,7 +30,6 @@ class BankAccount:
             case TransactionType.CREDIT:
                 self.__balance += amount
                 self.__transactions.append(Transaction(datetime.now(), amount, self.__balance))
-                print(f"Thank you. ${amount:.2f} has been deposited to your account.")
                 return True
 
             # Withdrawal
@@ -38,11 +37,9 @@ class BankAccount:
                 if amount <= self.__balance:
                     self.__balance -= amount
                     self.__transactions.append(Transaction(datetime.now(), -amount, self.__balance))
-                    print(f"Thank you. ${amount:.2f} has been withdrawn.")
                     return True
                 
                 elif amount > self.__balance:
-                    print("Your bank account has insufficient funds. Please try again.\nEnter [q] to return to main page.")
                     return False
             
             case _:

@@ -2,7 +2,8 @@ import pytest
 from decimal import Decimal
 
 from src.models.bank_account import BankAccount
-from src.service.bank_service import bank_app
+from src.service.view import BankView
+from src.service.controller import BankApp
 
 @pytest.fixture
 def account():
@@ -20,7 +21,8 @@ def test_deposit_negative_amount(account: BankAccount,monkeypatch: pytest.Monkey
     monkeypatch.setattr('builtins.input', lambda *args: next(inputs))
 
     account = BankAccount()
-    bank_app(account)
+    view = BankView()
+    BankApp(account, view).run()
 
     captured = capsys.readouterr()
     assert "Your amount must be a positive number." in captured.out
@@ -39,7 +41,8 @@ def test_deposit_non_number(account: BankAccount,monkeypatch: pytest.MonkeyPatch
     monkeypatch.setattr('builtins.input', lambda *args: next(inputs))
 
     account = BankAccount()
-    bank_app(account)
+    view = BankView()
+    BankApp(account, view).run()
 
     captured = capsys.readouterr()
     assert "Invalid amount. Please try again." in captured.out
@@ -58,7 +61,8 @@ def test_deposit_empty(account: BankAccount,monkeypatch: pytest.MonkeyPatch, cap
     monkeypatch.setattr('builtins.input', lambda *args: next(inputs))
 
     account = BankAccount()
-    bank_app(account)
+    view = BankView()
+    BankApp(account, view).run()
 
     captured = capsys.readouterr()
     assert "Invalid amount. Please try again." in captured.out
@@ -77,7 +81,8 @@ def test_deposit_multiple_negative_amount(account: BankAccount,monkeypatch: pyte
     monkeypatch.setattr('builtins.input', lambda *args: next(inputs))
 
     account = BankAccount()
-    bank_app(account)
+    view = BankView()
+    BankApp(account, view).run()
 
     captured = capsys.readouterr()
     assert "Your amount must be a positive number." in captured.out
@@ -98,7 +103,8 @@ def test_deposit_large_numbers(account: BankAccount, monkeypatch: pytest.MonkeyP
     monkeypatch.setattr('builtins.input', lambda *args: next(inputs))
 
     account = BankAccount()
-    bank_app(account)
+    view = BankView()
+    BankApp(account, view).run()
 
     captured = capsys.readouterr()
     assert "Thank you. $9999999999999999.99 has been deposited to your account." in captured.out
@@ -116,7 +122,8 @@ def test_deposit_long_numbers(account: BankAccount, monkeypatch: pytest.MonkeyPa
     inputs = iter(['d', '99.9999', '0.0001', 'q', 'q'])
     monkeypatch.setattr('builtins.input', lambda *args: next(inputs))
 
-    bank_app(account)
+    view = BankView()
+    BankApp(account, view).run()
 
     captured = capsys.readouterr()
     assert "Your amount should be rounded to the cent." in captured.out
@@ -136,7 +143,8 @@ def test_withdraw_negative_amount(account: BankAccount, monkeypatch: pytest.Monk
     monkeypatch.setattr('builtins.input', lambda *args: next(inputs))
 
     account = BankAccount()
-    bank_app(account)
+    view = BankView()
+    BankApp(account, view).run()
 
     captured = capsys.readouterr()
     assert "Thank you. $500.00 has been deposited to your account." in captured.out
@@ -156,7 +164,8 @@ def test_withdraw_insufficient_funds(account: BankAccount, monkeypatch: pytest.M
     monkeypatch.setattr('builtins.input', lambda *args: next(inputs))
 
     account = BankAccount()
-    bank_app(account)
+    view = BankView()
+    BankApp(account, view).run()
 
     captured = capsys.readouterr()
     assert "Your bank account has insufficient funds." in captured.out
@@ -175,7 +184,8 @@ def test_withdraw_exact_balance(account: BankAccount, monkeypatch: pytest.Monkey
     monkeypatch.setattr('builtins.input', lambda *args: next(inputs))
 
     account = BankAccount()
-    bank_app(account)
+    view = BankView()
+    BankApp(account, view).run()
 
     captured = capsys.readouterr()
     assert "Thank you. $100.00 has been deposited to your account." in captured.out
@@ -194,7 +204,8 @@ def test_withdraw_slightly_insufficient_funds(account: BankAccount, monkeypatch:
     inputs = iter(['d', '100', 'w', '100.01', 'q', 'q'])
     monkeypatch.setattr('builtins.input', lambda *args: next(inputs))
 
-    bank_app(account)
+    view = BankView()
+    BankApp(account, view).run()
 
     captured = capsys.readouterr()
     assert "Your bank account has insufficient funds." in captured.out
@@ -213,7 +224,8 @@ def test_print_empty(account: BankAccount, monkeypatch: pytest.MonkeyPatch, caps
     monkeypatch.setattr('builtins.input', lambda *args: next(inputs))
 
     account = BankAccount()
-    bank_app(account)
+    view = BankView()
+    BankApp(account, view).run()
 
     captured = capsys.readouterr()
     assert "Date" in captured.out
@@ -233,7 +245,8 @@ def test_print_large_balance(account: BankAccount, monkeypatch: pytest.MonkeyPat
     monkeypatch.setattr('builtins.input', lambda *args: next(inputs))
 
     account = BankAccount()
-    bank_app(account)
+    view = BankView()
+    BankApp(account, view).run()
 
     captured = capsys.readouterr()
     assert "Thank you. $9999999999999999.99 has been deposited to your account." in captured.out
@@ -251,7 +264,8 @@ def test_print_large_withdrawal(account: BankAccount, monkeypatch: pytest.Monkey
     monkeypatch.setattr('builtins.input', lambda *args: next(inputs))
 
     account = BankAccount()
-    bank_app(account)
+    view = BankView()
+    BankApp(account, view).run()
 
     captured = capsys.readouterr()
     assert "Thank you. $9999999999999999.99 has been deposited to your account." in captured.out
@@ -271,7 +285,8 @@ def test_print_multiple_deposit(account: BankAccount, monkeypatch: pytest.Monkey
     monkeypatch.setattr('builtins.input', lambda *args: next(inputs))
 
     account = BankAccount()
-    bank_app(account)
+    view = BankView()
+    BankApp(account, view).run()
 
     captured = capsys.readouterr()
     assert "Thank you. $500.00 has been deposited to your account." in captured.out
@@ -293,7 +308,8 @@ def test_print_multiple_withdraw(account: BankAccount, monkeypatch: pytest.Monke
     monkeypatch.setattr('builtins.input', lambda *args: next(inputs))
 
     account = BankAccount()
-    bank_app(account)
+    view = BankView()
+    BankApp(account, view).run()
 
     captured = capsys.readouterr()
     assert "Thank you. $1000.00 has been deposited to your account." in captured.out
@@ -315,7 +331,8 @@ def test_print_multiple_deposit_and_withdraw(account: BankAccount, monkeypatch: 
     monkeypatch.setattr('builtins.input', lambda *args: next(inputs))
 
     account = BankAccount()
-    bank_app(account)
+    view = BankView()
+    BankApp(account, view).run()
 
     captured = capsys.readouterr()
     assert "Thank you. $1000.00 has been deposited to your account." in captured.out
@@ -326,3 +343,25 @@ def test_print_multiple_deposit_and_withdraw(account: BankAccount, monkeypatch: 
     assert "500.00" in captured.out
     assert "900.00" in captured.out
     assert "600.00" in captured.out
+
+def test_error_invalid_actions(account: BankAccount, monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture):
+    """
+    Test different invalid inputs for main menu.
+
+    :param account: The BankAccount instance to test.
+    :param monkeypatch: The pytest fixture to modify builtins.
+    :param capsys: The pytest fixture to capture stdout and stderr.
+    """
+    inputs = iter(['c', '%!$', '123', 'q'])
+    monkeypatch.setattr('builtins.input', lambda *args: next(inputs))
+
+    account = BankAccount()
+    view = BankView()
+    BankApp(account, view).run()
+
+    captured = capsys.readouterr()
+    assert "Invalid option. Please try again." in captured.out
+    assert "Invalid option. Please try again." in captured.out
+    assert "Invalid option. Please try again." in captured.out
+    assert "Invalid option. Please try again." in captured.out
+    
