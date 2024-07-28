@@ -68,12 +68,12 @@ class BankAccount:
         # Transaction history exists
         if len(self.__transactions) > 0:
             # Formatting maximum width of | Amount |
-            max_amount_width = max(len(f"{t.amount: .2f}") for t in self.__transactions)
+            max_amount_width = max(len(f"{t.amount:.2f}") for t in self.__transactions)
             max_amount_width = max(max_amount_width, len("Amount"))
 
             # Formatting maximum width of | Balance |
             max_balance_width = max(
-                len(f"{t.balance: .2f}") for t in self.__transactions
+                len(f"{t.balance:.2f}") for t in self.__transactions
             )
             max_balance_width = max(max_balance_width, len("Balance"))
 

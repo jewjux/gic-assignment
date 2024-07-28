@@ -36,14 +36,14 @@ class BankView:
         """
         Display deposit success.
         """
-        print(f"Thank you. ${amount: .2f} has been deposited to your account.")
+        print(f"Thank you. ${amount:.2f} has been deposited to your account.")
 
     @staticmethod
     def show_withdrawal_success(amount: Decimal) -> None:
         """
         Display withdrawal success.
         """
-        print(f"Thank you. ${amount: .2f} has been withdrawn.")
+        print(f"Thank you. ${amount:.2f} has been withdrawn.")
 
     @staticmethod
     def error_insufficient_funds() -> None:
