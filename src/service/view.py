@@ -1,9 +1,11 @@
 from decimal import Decimal
 
+
 class BankView:
     """
     Class to display menu and print messages.
     """
+
     @staticmethod
     def show_menu() -> None:
         """
@@ -14,14 +16,14 @@ class BankView:
         print("[W]ithdraw")
         print("[P]rint statement")
         print("[Q]uit")
-    
+
     @staticmethod
     def prompt_for_deposit() -> None:
         """
         Display deposit prompt.
         """
         return input("Please enter the amount to deposit: ")
-    
+
     @staticmethod
     def prompt_for_withdrawal() -> None:
         """
@@ -34,21 +36,23 @@ class BankView:
         """
         Display deposit success.
         """
-        print(f"Thank you. ${amount:.2f} has been deposited to your account.")
+        print(f"Thank you. ${amount: .2f} has been deposited to your account.")
 
     @staticmethod
     def show_withdrawal_success(amount: Decimal) -> None:
         """
         Display withdrawal success.
         """
-        print(f"Thank you. ${amount:.2f} has been withdrawn.")
+        print(f"Thank you. ${amount: .2f} has been withdrawn.")
 
     @staticmethod
     def error_insufficient_funds() -> None:
         """
         Display error for insufficient funds.
         """
-        print("Your bank account has insufficient funds. Please try again.\nEnter [q] to return to main page.")
+        print(
+            "Your bank account has insufficient funds. Please try again.\nEnter [q] to return to main page."
+        )
 
     @staticmethod
     def error_invalid_action() -> None:
@@ -64,28 +68,34 @@ class BankView:
         """
         print("Thank you for banking with AwesomeGIC Bank.")
         print("Have a nice day!")
-    
+
     @staticmethod
     def error_negative_amount() -> None:
         """
         Display error for negative input amount.
         """
-        print("Your amount must be a positive number. Please try again.\nEnter [q] to return to main page.")
-    
+        print(
+            "Your amount must be a positive number. Please try again.\nEnter [q] to return to main page."
+        )
+
     @staticmethod
     def error_zero_amount() -> None:
         """
         Display error for zero amount.
         """
-        print("Your amount is too small. Please try again.\nEnter [q] to return to main page.")
-    
+        print(
+            "Your amount is too small. Please try again.\nEnter [q] to return to main page."
+        )
+
     @staticmethod
     def error_rounding() -> None:
         """
         Display error for input rounding.
         """
-        print("Your amount should be rounded to the cent. Please try again.\nEnter [q] to return to main page.")
-    
+        print(
+            "Your amount should be rounded to the cent. Please try again.\nEnter [q] to return to main page."
+        )
+
     @staticmethod
     def error_non_number() -> None:
         """

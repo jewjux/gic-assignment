@@ -1,10 +1,12 @@
 from decimal import Decimal
 from datetime import datetime
 
+
 class Transaction:
     """
     Class to represent a single transaction.
     """
+
     def __init__(self, date: datetime, amount: Decimal, balance: Decimal):
         """
         Initialise the transaction with date, amount, balance.
@@ -25,10 +27,10 @@ class Transaction:
         :return: A single formatted transaction.
         """
         date_str = self.__date.strftime("%d %b %Y %I:%M:%S%p")
-        amount_str = f"{self.__amount:.2f}".ljust(max_amount_width)
-        balance_str = f"{self.__balance:.2f}".ljust(max_balance_width)
+        amount_str = f"{self.__amount: .2f}".ljust(max_amount_width)
+        balance_str = f"{self.__balance: .2f}".ljust(max_balance_width)
         return f"{date_str} | {amount_str} | {balance_str}"
-    
+
     @property
     def date(self) -> datetime:
         """
@@ -37,7 +39,7 @@ class Transaction:
         :return datetime: The date of the transaction.
         """
         return self.__date
-    
+
     @property
     def amount(self) -> Decimal:
         """
@@ -46,7 +48,7 @@ class Transaction:
         :return Decimal: The amount of the transaction.
         """
         return self.__amount
-    
+
     @property
     def balance(self) -> Decimal:
         """
