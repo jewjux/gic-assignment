@@ -6,6 +6,10 @@ from .view import BankView
 
 
 class BankApp:
+    """
+    Class to run the bank service.
+    """
+
     def __init__(self, account: BankAccount, view: BankView):
         """
         Initialise bank application with model and view.
@@ -48,9 +52,9 @@ class BankApp:
                 case _:
                     self.view.error_invalid_action()
 
-    def check_input(self, input: str) -> Decimal:
+    def validate_input(self, input: str) -> Decimal:
         """
-        Function to check input for:
+        Function to validate input for:
         - positive number
         - 2 decimal place
         - non-number inputs.
@@ -60,35 +64,30 @@ class BankApp:
         - zero amount
         - rounding (more than 2 decimal places)
 
-        :param input: The input to check.
+        :param input: The input to validate.
 
         :return Decimal: The valid amount.
         """
         try:
             input = Decimal(input)
 
-            # Check if number input has valid rounding (2 or less decimal places)
-            if abs(input.as_tuple().exponent) <= 2:
-                # Positive valid input
-                if input > 0:
-                    return input
-
-                # Negative invalid input
-                elif input < 0:
-                    self.view.error_negative_amount()
-                    return None
-
-                # Zero amount
-                else:
-                    self.view.error_zero_amount()
-                    return None
-
             # Invalid rounding (more than 2 decimal places)
-            else:
+            if abs(input.as_tuple().exponent) > 2:
                 self.view.error_rounding()
                 return None
 
-        # Invalid non number
+            if input > 0:
+                return input
+
+            elif input < 0:
+                self.view.error_negative_amount()
+                return None
+
+            else:
+                self.view.error_zero_amount()
+                return None
+
+        # Invalid non number (eg: 'abc', '!%$')
         except InvalidOperation:
             self.view.error_non_number()
             return None
@@ -99,12 +98,8 @@ class BankApp:
 
         - Prompts for user input for amount
         - Checks the input for valid amount
-        - Logs the valid deposit as a transaction
+        - Creates the transaction from the valid deposit
         """
-        # Flag for whether logging of the deposit is successful
-        log_success: bool = False
-
-        # Continuously prompt for valid deposit amount
         while True:
             deposit_input = self.view.prompt_for_deposit()
 
@@ -112,18 +107,14 @@ class BankApp:
             if deposit_input.strip().lower() == "q":
                 break
 
-            # Checks whether input deposit amount is valid
-            amount = self.check_input(deposit_input)
+            amount = self.validate_input(deposit_input)
 
-            # Amount is valid number
             if amount is not None:
-                # Attempting to log the deposit
-                log_success = self.account.log_transaction(
+                is_successful = self.account.create_transaction(
                     amount, TransactionType.CREDIT
                 )
 
-                # Valid deposit, logging successful
-                if log_success:
+                if is_successful:
                     self.view.show_deposit_success(amount)
                     break
 
@@ -133,12 +124,8 @@ class BankApp:
 
         - Prompts for user input for amount
         - Checks the input for valid amount
-        - Logs the valid withdrawal as a transaction
+        - Creates the transaction from the valid withdrawal
         """
-        # Flag for whether logging of the withdrawal is successful
-        log_success: bool = False
-
-        # Continuously prompt for valid withdrawal amount
         while True:
             withdrawal_input = self.view.prompt_for_withdrawal()
 
@@ -146,21 +133,16 @@ class BankApp:
             if withdrawal_input.strip().lower() == "q":
                 break
 
-            # Checks whether input withdrawal amount is valid
-            amount = self.check_input(withdrawal_input)
+            amount = self.validate_input(withdrawal_input)
 
-            # Amount is valid number
             if amount is not None:
-                # Attempting to log the withdrawal
-                log_success = self.account.log_transaction(
+                is_successful = self.account.create_transaction(
                     amount, TransactionType.DEBIT
                 )
 
-                # Valid withdrawal, logging successful
-                if log_success:
+                if is_successful:
                     self.view.show_withdrawal_success(amount)
                     break
 
-                # Invalid withdrawal due to insufficient funds
                 else:
                     self.view.error_insufficient_funds()
