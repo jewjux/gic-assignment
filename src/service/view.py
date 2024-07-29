@@ -18,14 +18,14 @@ class BankView:
         print("[Q]uit")
 
     @staticmethod
-    def prompt_for_deposit() -> None:
+    def prompt_for_deposit() -> str:
         """
         Display deposit prompt.
         """
         return input("Please enter the amount to deposit: ")
 
     @staticmethod
-    def prompt_for_withdrawal() -> None:
+    def prompt_for_withdrawal() -> str:
         """
         Display withdrawal prompt.
         """
