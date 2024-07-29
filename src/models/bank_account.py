@@ -18,16 +18,16 @@ class BankAccount:
         self.__balance: Decimal = Decimal("0.0")
         self.__transactions: list = []
 
-    def __log_transaction(
+    def create_transaction(
         self, amount: Decimal, transaction_type: TransactionType
     ) -> bool:
         """
-        Private method to log the transaction and update the balance.
+        Private method to create the transaction and update the balance.
 
         :param amount: The amount to deposit or withdraw.
         :param transaction_type: The type of transaction (CREDIT, DEBIT).
 
-        :return bool: Flag if logging is successful.
+        :return bool: Flag if creation of transaction is successful.
         """
         match transaction_type:
             # Deposit
@@ -53,13 +53,6 @@ class BankAccount:
             case _:
                 print("Invalid transaction type detected.")
                 return False
-
-    def log_transaction(self, amount: Decimal, transaction_type: str) -> bool:
-        """
-        Public method to log the transaction and update the balance.
-        Calls the private __log_transaction method.
-        """
-        return self.__log_transaction(amount, transaction_type)
 
     def print_statement(self) -> None:
         """
