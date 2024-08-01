@@ -9,34 +9,34 @@ A simple banking system application written in Python. This application allows u
 - **Print Statement**: Display a list of all transactions with dates, amounts, and balances.
 - **Quit**: Exit the application.
 
-## Installation
-Building the Docker image (using Linux Ubuntu distribution):
-    ```sh
-        docker build -t my-linux-env .
+## Installation and Usage
+### Option 1: With Docker (Recommended)
+Configured Dockerfile which:
+1. Sets up a lightweight Python 3.10 environment with a virtual environment
+2. Installs dependencies from a requirements file
+3. Runs the specified Python module
+
+Building the Docker image named "gic":
+    ```docker build -t gic .
         ```
 
-Running a container using the Docker image:
-    ```sh
-        docker run -it my-linux-env /bin/bash
+Running the app:
+    ```docker run -it --rm gic
         ```
 
-Create a virtual environment:
-    ```sh
-    python -m venv venv
-    ```
-
-Activate the virtual environment:
-    ```sh
-        source venv/bin/activate
+Running the tests:
+    ```docker run -it --rm gic pytest
         ```
 
-Install the required packages:
-    ```sh
-    pip install -r requirements.txt
-    ```
+### Option 2: Without Docker
+Note: Please ensure your python environment is 3.10
 
-## Usage
+Creating virtual environment: ```python -m venv venv```
 
-Run the application from the command line:
-```sh
-python -m src.main
+Activate virtual environment: ```source venv/bin/activate```
+
+Install requirements: ```pip install -r requirements.txt```
+
+Running the app: ```python -m src.main```
+
+Running the tests: ```pytest```
